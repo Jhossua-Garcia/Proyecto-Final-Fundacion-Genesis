@@ -1,0 +1,367 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+ /* === CONTENEDOR GENERAL DE SECCIÓN === */
+.section-content {
+  background: #0f0f1b; /* Fondo oscuro futurista */
+  padding-top: 40px;
+  padding-bottom: 40px;
+  color: #f0f0f0;
+}
+
+/* === TÍTULO SUPERIOR === */
+.title-page {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  background: linear-gradient(90deg, #00fff7, #ff6b6b, #f8e71c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* === TARJETAS DE PRODUCTO === */
+.card.card-product-grid {
+  background-color: #1a1a2e;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 255, 255, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card.card-product-grid:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 12px 20px rgba(0, 255, 255, 0.15);
+}
+
+/* === IMÁGENES DE PRODUCTO === */
+.img-wrap img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  filter: brightness(0.95);
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.img-wrap img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* === FILTROS LATERALES === */
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 255, 255, 0.08);
+  overflow: hidden;
+  margin-bottom: 20px;
+  background-color: #12121c;
+  color: #f0f0f0;
+}
+
+.filter-group .card-header {
+  background: #00fff7;
+  color: #0f0f1b;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.filter-group .card-header:hover {
+  background: #00d1d1;
+}
+
+.filter-group .card-body {
+  background: #1e1e2e;
+  padding: 15px;
+}
+
+.list-menu li {
+  margin: 5px 0;
+}
+
+.list-menu li a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.list-menu li a:hover {
+  color: #00fff7;
+}
+
+/* === TÍTULOS DE FILTROS === */
+.title {
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+}
+
+/* === PAGINACIÓN === */
+.pagination .page-link {
+  border: none;
+  color: #00fff7;
+  background-color: #1a1a2e;
+  margin: 0 2px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination .page-link:hover {
+  background-color: #00fff7;
+  color: #0f0f1b;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #ff6b6b;
+  color: #fff;
+  border-color: #ff6b6b;
+  font-weight: bold;
+}
+
+/* === BOTÓN DE VER DETALLES === */
+.btn-success {
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  border: none;
+  color: #0f0f1b;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.btn-success:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+}
+
+/* === ETIQUETAS DE TALLA === */
+.checkbox-btn .btn-light {
+  background-color: #1a1a2e;
+  color: #00fff7;
+  border: 1px solid #00f2fe;
+  border-radius: 6px;
+  padding: 6px 12px;
+  transition: all 0.2s ease-in-out;
+}
+.checkbox-btn .btn-light:hover {
+  background: #00f2fe;
+  color: #0f0f1b;
+}
+.price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #00fff7; /* color neón moderno */
+  background: rgba(0, 255, 247, 0.1); /* fondo suave */
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  box-shadow: 0 0 8px rgba(0, 255, 247, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.price:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0, 255, 247, 0.4);
+}
+
+
+
+</style>
+<section class="section-pagetop bg">
+    <div class="container">
+        {% if 'buscar_producto' in request.path %}
+            <h2 class="title-page">Se encontraron estos Productos</h2>
+
+        {% else %}
+            <h2 class="title-page">Nuestra Tienda</h2>
+        {% endif %}
+    
+    </div> <!-- container //  -->
+    </section>
+
+    <section class="section-content padding-y">
+        <div class="container">
+        
+        <div class="row">
+            <aside class="col-md-3">
+                
+        <div class="card">
+            <article class="filter-group">
+                <header class="card-header">
+                    <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+                        <i class="icon-control fa fa-chevron-down"></i>
+                        <h6 class="title">Categorias</h6>
+                    </a>
+                </header>
+                <div class="filter-content collapse show" id="collapse_1" style="">
+                    <div class="card-body">
+                        
+                        <ul class="list-menu">
+                            <li> <a href="{% url 'tienda' %}">Todos Los Productos</a></li>
+                            {% for categoria in links %}
+                        <li><a href="{{ categoria.get_url }}">{{categoria.nombre_categoria}} </a></li>
+                        {% endfor %}
+                        
+                        </ul>
+        
+                    </div> <!-- card-body.// -->
+                </div>
+            </article> <!-- filter-group  .// -->
+            <article class="filter-group">
+                <header class="card-header">
+                    <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
+                        <i class="icon-control fa fa-chevron-down"></i>
+                        <h6 class="title">Tallas</h6>
+                    </a>
+                </header>
+                <div class="filter-content collapse show" id="collapse_4">
+                    <div class="card-body">
+                      <label class="checkbox-btn">
+                        <input type="checkbox">
+                        <span class="btn btn-light"> XS </span>
+                      </label>
+        
+                      <label class="checkbox-btn">
+                        <input type="checkbox">
+                        <span class="btn btn-light"> S</span>
+                      </label>
+        
+                      <label class="checkbox-btn">
+                        <input type="checkbox">
+                        <span class="btn btn-light"> M</span>
+                      </label>
+        
+                      <label class="checkbox-btn">
+                        <input type="checkbox">
+                        <span class="btn btn-light"> L </span>
+                      </label>
+                </div><!-- card-body.// -->
+                </div>
+            </article> <!-- filter-group .// -->
+            
+            <article class="filter-group">
+                <header class="card-header">
+                    <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
+                        <i class="icon-control fa fa-chevron-down"></i>
+                        <h6 class="title">Rango Precio</h6>
+                    </a>
+                </header>
+                <div class="filter-content collapse show" id="collapse_3" style="">
+                    <div class="card-body">
+                        
+                        <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label>Minimo</label>
+                          <!-- <input class="form-control" placeholder="$0" type="number"> -->
+                              <select class="mr-2 form-control">
+                                <option value="0">$0</option>
+                                <option value="50">$50</option>
+                                <option value="100">$100</option>
+                                <option value="150">$150</option>
+                                <option value="200">$200</option>
+                                <option value="500">$500</option>
+                                <option value="1000">$1000</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-right col-md-6">
+                          <label>Maximo</label>
+                              <select class="mr-2 form-control">
+                                <option value="50">$50</option>
+                                <option value="100">$100</option>
+                                <option value="150">$150</option>
+                                <option value="200">$200</option>
+                                <option value="500">$500</option>
+                                <option value="1000">$1000</option>
+                                <option value="2000">$2000+</option>
+                            </select>
+                        </div>
+                        </div> <!-- form-row.// -->
+                        <button class="btn btn-block btn-primary">Applicar</button>
+                    </div><!-- card-body.// -->
+                </div>
+            </article> <!-- filter-group .// -->
+            
+        </div> <!-- card.// -->
+        
+            </aside> <!-- col.// -->
+            <main class="col-md-9">
+        
+        <header class="border-bottom mb-4 pb-3">
+                <div class="form-inline">
+                    <span class="mr-md-auto"><b>{{contar_productos }}</b> Productos Ecnontrados </span>
+                    
+                </div>
+        </header><!-- sect-heading -->
+        
+        <div class="row">
+            {% if productos %}
+            {% for producto in productos %}
+            <div class="col-md-4">
+                <figure class="card card-product-grid">
+                    <div class="img-wrap"> 
+                        
+                        <a href="{{producto.get_url }}" class="img-wrap"> <img src="{{producto.imagen.url}}"> </a>
+  
+                    </div> <!-- img-wrap.// -->
+                    <figcaption class="info-wrap">
+                        <div class="fix-height">
+                            <a href="{{producto.get_url }}" class="title">{{ producto.nombre_producto }}</a>
+                            <div class="price-wrap mt-2">
+                                <span class="price">${{ producto.precio}}</span>
+                            </div> <!-- price-wrap.// -->
+                        </div>
+                        <a href="{{  producto.get_url }}" class="btn btn-block btn-success">Ver Detalles</a>
+                    </figcaption>
+                </figure>
+            </div> <!-- col.//  no elimino esta -->
+            {% endfor %}
+            {% else %}
+            <div>
+                <h2>Lo sentimos no hemos encontrado el producto</h2>
+            </div>
+            {% endif %}
+        </div> <!-- row end.//  hasta aqui-->
+        
+        
+        <nav class="mt-4" aria-label="Page navigation sample">
+            {% if productos.has_other_pages %}
+          <ul class="pagination">
+            {% if productos.has_previous %}
+            <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
+            {% endif %}
+
+            {% for item in productos.paginator.page_range %}
+                {% if productos.number == item %}
+                    <li class="page-item active"><a class="page-link" href="#">{{item}}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{item}}">{{item}}</a></li>
+                {% endif %}
+            {% endfor %}
+
+
+            {% if productos.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{productos.next_page_number}}">Siguiente</a></li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link" href="#">Siguiente</a></li>
+            {% endif %}
+
+          </ul>
+          {% endif %}
+        </nav>
+        
+            </main> <!-- col.// -->
+        
+        </div>
+        
+        </div> <!-- container .//  -->
+        </section>
+
+{% endblock %}

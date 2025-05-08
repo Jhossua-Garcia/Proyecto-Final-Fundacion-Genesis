@@ -1,3 +1,3 @@
 from django.test import TestCase
 
-# crear un test para el modelo Auth
+# crea una clase de prueba para el modelo Auth

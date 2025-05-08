@@ -11,7 +11,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.utils.html import strip_tags
 from django.http import HttpResponse
-
+# crear tus vistas aquí 
 
 
 
@@ -65,10 +65,6 @@ def registro(request):
     return render(request, 'cuentas/registro.html', context)
 
 
-
-
-
-
 def login(request):
     if request.method == 'POST':
         email= request.POST['email']
@@ -91,12 +87,6 @@ def logout(request):
     return render(request, 'cuentas/login.html')
 
 
-
-
-
-
-
-
 def activar_cuenta(request, uidb64, token):
     try:
         uid= urlsafe_base64_decode(uidb64).decode()
@@ -115,13 +105,8 @@ def activar_cuenta(request, uidb64, token):
 
 
 
-
-
-
 def dashboard_usuario(request):
     return render(request, 'cuentas/dashboard_usuario.html')
-
-
 
 
 
@@ -161,11 +146,6 @@ def olvidar_password(request):
 
 
 
-
-
-
-
-
 def validar_cuenta_recuperada(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
@@ -180,7 +160,10 @@ def validar_cuenta_recuperada(request, uidb64, token):
     else:
         messages.error(request, 'Ups, el enlace de recuperación ha expirado.')
         return redirect('login')
-    
+
+
+
+
 def recuperar_password(request):
     if request.method == 'POST':
         password = request.POST['password']
